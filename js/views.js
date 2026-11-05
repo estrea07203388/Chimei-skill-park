@@ -72,6 +72,9 @@ function courseHTML(z, c){
       <div><dt>日期</dt><dd>${val(c.date)}</dd></div>
       <div><dt>地點</dt><dd>${val(c.location)}</dd></div>
     </dl>
+    ${c.sessions && c.sessions.length ? `<div><h3 class="sec">梯次</h3><div class="scroll"><table class="sessions"><thead><tr><th>梯次</th><th>日期</th><th>地點</th><th>名額</th><th>報名</th></tr></thead><tbody>${
+      c.sessions.map(s => `<tr${s.past?' class="past"':""}><td>${val(s.batch)}${s.past?' <span class="ended">已結束</span>':""}</td><td>${val([s.date, s.time].filter(Boolean).join(" "))}${s.note?`<br><small>${esc(s.note)}</small>`:""}</td><td>${val(s.location)}</td><td>${val(s.seats)}</td><td>${s.past ? "—" : (s.signup ? `<a href="${esc(s.signup)}" target="_blank" rel="noopener">報名 ↗</a>` : `<span class="tbd">${LINK_TBD}</span>`)}</td></tr>`).join("")
+    }</tbody></table></div></div>` : ""}
     <div><h3 class="sec">課前準備</h3>${prep}</div>
     ${c.feedback ? feedbackHTML(c.feedback) : ""}
     <div class="actions">
