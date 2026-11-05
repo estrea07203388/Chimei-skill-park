@@ -53,7 +53,7 @@ function feedbackHTML(f){
   const counts = (f.counts||[]).map(c => { const max = Math.max(...c.rows.map(r=>r[1]));
     return `<h3 class="sec">${esc(c.title)}</h3><ul class="fb-count">${c.rows.map(([l,n]) => `<li><span>${esc(l)}</span><span class="fb-cbar"><span style="width:${n/max*100}%"></span></span><b>${n} 人</b></li>`).join("")}</ul>`; }).join("");
   return `<section class="feedback"><h3 class="sec">學員回饋</h3>
-    <p class="fb-meta">${esc(f.source)}・共 ${f.total} 份・${f.sessions.map(esc).join("、")}<br>${esc(f.respondents)}</p>
+    <p class="fb-meta">${esc(f.source)}・共 ${f.total} 份・${f.sessions.map(esc).join("、")}<br>${esc(f.respondents)}${f.instructors?`<br>授課教師：${esc(f.instructors)}`:""}</p>
     ${fbLegend(levels)}
     <ul class="fb-list">${rows}</ul>
     ${cmp}${counts}
