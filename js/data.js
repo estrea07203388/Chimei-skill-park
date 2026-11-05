@@ -66,7 +66,7 @@ const ZONES = [
     tagline: "腹腔鏡・血管縫合・消化鏡",
     intro: "微創與精細手技的練習場，從模擬箱的基本器械操作，到血管吻合與內視鏡操作。",
     courses: [
-      { id: "lap", name: "腹腔鏡模擬箱訓練", pgy: true,
+      { id: "lap", name: "腹腔鏡模擬箱訓練", pgy: true, tab: "腹腔鏡模擬箱訓練",
         summary: "在腹腔鏡模擬訓練箱內練習器械操作、手眼協調與深度感知，建立微創手術基本功。",
         audience: null, date: null, location: null, prep: [], signup: null,
         /* 【學員回饋】課後問卷（表單匯出的 Excel），10 分制；只放統計與匿名回饋（已排除 3 份測試／亂填）。scale 依序為 10、9、8 分人數 */
@@ -105,7 +105,7 @@ const ZONES = [
             { title: "對臨床技能中心課程／測驗的意見與建議", items: ["好", "有些教材魔鬼粘掉了", "非常棒 非常感謝學長耐心指導！", "都很好！很有趣～", "好玩", "超喜歡！", "謝謝醫師用心的教學，可以在實作中學習", "非常喜歡 尤其對外科有興趣的同學很受用；林才揚醫師授課也很有耐心！", "老師教學認真，由淺入深，獲益良多。", "受益良多，學習到拿器械的方式，謝謝老師"] }
           ]
         } },
-      { id: "yvessel", name: "3D 列印 Y 型血管縫合", pgy: true,
+      { id: "yvessel", name: "3D 列印 Y 型血管縫合", pgy: true, tab: "3D列印Y型血管縫合",
         summary: "使用 3D 列印的 Y 型血管模型，練習血管吻合的縫合技巧、針距與張力控制。",
         audience: null, date: null, location: null, prep: [], signup: null,
         /* 【學員回饋】課後問卷（表單匯出的 Excel），10 分制；只放統計與匿名回饋（已排除 2 份測試填答）。scale 依序為 10、9、8 分人數 */
@@ -332,7 +332,7 @@ const ZONES = [
       { id: "simman", name: "SimMan 高擬真情境模擬",
         summary: "使用高擬真模擬人重現急重症情境，演練後進行引導式回饋。",
         audience: null, date: null, location: null, prep: [], signup: null },
-      { id: "vr", name: "VR沉浸式模擬訓練",
+      { id: "vr", name: "VR沉浸式模擬訓練", tab: "VR沉浸式模擬訓練",
         summary: "戴上 VR 裝置進入虛擬臨床情境，以沉浸式體驗練習評估、處置與團隊溝通。",
         audience: null, date: null, location: null, prep: [], signup: null }
     ]

@@ -2,7 +2,7 @@
    【Google 試算表自動匯入】各課程的梯次
    - 試算表網址設定在 js/data.js 的 SHEET_URL（共用連結，需「知道連結的任何人都可以檢視」）
    - 一門課一個分頁；在 js/data.js 的課程加上 tab: "分頁名稱" 就會讀那個分頁
-   - 分頁第一列是標題：梯次、日期、時間、地點、名額、授課老師、報名連結、備註（有的欄位才需要，順序可調）
+   - 分頁第一列是標題：梯次、日期、時間、地點、名額、授課老師、授課對象、報名連結、備註（有的欄位才需要，順序可調）
    - 一梯一列。網站依日期排序、已過的梯次標示「已結束」，卡片與近期課程顯示「下一梯」
    - 讀不到試算表時，網站照常使用 data.js 的資料
    - 檢查模式：網址加上 ?sheetcheck 會在畫面上顯示讀取結果
@@ -79,7 +79,7 @@
       const tab = c.tab;
       const ss = rows.map(r => ({ batch: r["梯次"], date: r["日期"], time: r["時間"], location: r["地點"],
                                   seats: r["名額"], signup: r["報名連結"], note: r["備註"],
-                                  teacher: r["授課老師"] || r["授課教師"] || r["講師"], day: dayOf(r["日期"] || "") }))
+                                  teacher: r["授課老師"] || r["授課教師"] || r["講師"], audience: r["授課對象"] || r["適合對象"], day: dayOf(r["日期"] || "") }))
                      .filter(s => s.date || s.batch);
       log(ss.length ? true : null, `${c.name}：分頁「${tab}」有 ${ss.length} 梯` + (ss.length ? `（${ss.map(s => (s.batch||"") + " " + (s.date||"") + (s.day ? "" : "⚠️日期格式看不懂")).join("、")}）` : "（沒有填梯次）"));
       if (!ss.length) return;
@@ -92,6 +92,7 @@
         if (next.location) c.location = next.location;
         if (next.signup) c.signup = next.signup;
         if (next.teacher) c.teacher = next.teacher;
+        if (next.audience) c.audience = next.audience;
       } else c.date = "本期梯次已結束";
     });
     log(n ? true : null, `完成：${n} 門課有梯次資料`);
