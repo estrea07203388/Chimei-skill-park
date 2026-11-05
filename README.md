@@ -42,6 +42,7 @@ Chimei-skill-park/
 | 修改地圖上的長官小人 | `js/data.js` 的 `LEADERS` |
 | 調整顏色、字型、版面 | `css/style.css` |
 | 調整 3D 地圖的園區位置、遊樂設施 | `js/map3d.js`（`ZA`、`WHEEL`、`COAST`、`TOWER`） |
+| 調整手機版 3D 地圖（高度、按鈕、鏡頭遠近） | `css/style.css` 的 `@media (max-width:760px)`、`js/map3d.js` 的 `ZOOM_OUT` |
 | 修改頁首、導覽列、頁面區塊文字 | `index.html` |
 | 修改「返回 OSCE 學習島」按鈕的連結／樣式 | `index.html`（連結，在 `</header>` 下方）、`css/style.css` 最下方（樣式；按鈕固定在畫面左下角） |
 

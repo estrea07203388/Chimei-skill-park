@@ -8,7 +8,6 @@ const MAP3D = {};
   let gl = false;
   try { const c = document.createElement("canvas"); gl = !!(window.WebGLRenderingContext && (c.getContext("webgl") || c.getContext("experimental-webgl"))); } catch(e){}
   if (!window.THREE || !THREE.OrbitControls || !gl){ document.body.classList.add("no3d"); return; }
-  if (matchMedia("(max-width:760px)").matches) return;
   try { build(); } catch(err){ console.error(err); document.body.classList.add("no3d"); }
 
   function build(){
@@ -22,10 +21,14 @@ const MAP3D = {};
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, .5, 400);
   const HOME_POS = new THREE.Vector3(0, 37, 56), HOME_T = new THREE.Vector3(0, 0, 6);
+  // 直式手機畫面比較窄：把預設鏡頭往後拉，整座島才放得進畫面
+  const ZOOM_OUT = Math.min(1.7, Math.max(1, 1.5 * host.clientHeight / Math.max(1, host.clientWidth)));
+  HOME_POS.sub(HOME_T).multiplyScalar(ZOOM_OUT).add(HOME_T);
+  if (ZOOM_OUT > 1){ const dz = -14 * (ZOOM_OUT - 1); HOME_T.z += dz; HOME_POS.z += dz; }  // 島往畫面下方移，上方留給按鈕
   camera.position.copy(HOME_POS);
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.target.copy(HOME_T); controls.enableDamping = true; controls.dampingFactor = .08;
-  controls.minDistance = 14; controls.maxDistance = 100; controls.maxPolarAngle = 1.22; controls.minPolarAngle = .2;
+  controls.minDistance = 14; controls.maxDistance = 100 * ZOOM_OUT; controls.maxPolarAngle = 1.22; controls.minPolarAngle = .2;
   controls.screenSpacePanning = false; controls.autoRotateSpeed = .55;
   MAP3D.view = (p, t) => { camera.position.set(...p); controls.target.set(...t); };
 
