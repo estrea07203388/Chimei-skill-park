@@ -40,6 +40,7 @@ Chimei-skill-park/
 | 讓課程出現在 PGY 導覽票 | 該課程設 `pgy: true` |
 | 修改 ACLS 儀表板網址 | `js/data.js` 的 `LINKS.aclsDashboard` |
 | 修改地圖上的長官小人 | `js/data.js` 的 `LEADERS` |
+| 新增／修改急救任務站的講師演講資料（PDF） | `js/data.js` 的 `lectures`（PDF 放在 acls-dashboard repo，`file` 填檔案路徑） |
 | 調整顏色、字型、版面 | `css/style.css` |
 | 調整 3D 地圖的園區位置、遊樂設施 | `js/map3d.js`（`ZA`、`WHEEL`、`COAST`、`TOWER`） |
 | 調整手機版 3D 地圖（高度、按鈕、鏡頭遠近） | `css/style.css` 的 `@media (max-width:760px)`、`js/map3d.js` 的 `ZOOM_OUT` |

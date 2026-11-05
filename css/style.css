@@ -306,3 +306,11 @@ th{font-size:12px;color:var(--muted);letter-spacing:.08em;font-weight:700}
 body { padding-bottom: 76px; }
 /* 地圖高度不超過「螢幕高度 − 頁首 − 按鈕」，矮螢幕時按鈕才不會蓋住地圖左下角的園區按鈕 */
 .map-wrap { height: max(480px, min(clamp(620px, 78vh, 880px), calc(100vh - 170px))); }
+
+/* ===== 急救任務站：講師演講資料 ===== */
+.box.lectures{grid-column:1/-1}
+.lectures h5{margin:6px 0 0;font-size:13px;color:var(--muted);letter-spacing:.05em}
+.lectures .res li{align-items:center}
+.lectures .res li > span{display:flex;flex-direction:column;min-width:0}
+.lectures .res small{color:var(--muted);font-size:13px;line-height:1.4}
+.lectures .res a{flex:none;font-weight:700;white-space:nowrap}

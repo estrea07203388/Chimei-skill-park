@@ -49,6 +49,8 @@ function extrasHTML(z){
     out += `<div class="extras">
       <section class="box"><h4>年度課表</h4><div class="scroll"><table><thead><tr><th>課程</th><th>梯次</th><th>日期</th><th>名額</th></tr></thead><tbody>${rows}</tbody></table></div></section>
       <section class="box"><h4>課前資料</h4><ul class="res">${z.resources.map(r=>`<li><span>${esc(r.name)}</span>${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">開啟 ↗</a>`:`<span class="tbd">${LINK_TBD}</span>`}</li>`).join("")}</ul></section>
+      ${(z.lectures||[]).length ? `<section class="box lectures"><h4>講師演講資料</h4>${z.lectures.map(g=>`
+        <h5>${esc(g.group)}</h5><ul class="res">${g.items.map(l=>`<li><span><b>${esc(l.speaker)}</b><small>${esc(l.topic)}</small></span><a href="${esc(LECTURE_BASE + encodeURI(l.file))}" target="_blank" rel="noopener" aria-label="開啟 ${esc(l.speaker)} 的講義（PDF，另開分頁）">PDF ↗</a></li>`).join("")}</ul>`).join("")}</section>` : ""}
       <section class="box"><h4>ACLS／ALS 管理儀表板</h4><p class="hint" style="margin:0">梯次、學員與講師資料請到既有儀表板查看。</p>${linkBtn(LINKS.aclsDashboard,"開啟儀表板")}</section>
     </div>`;
   }

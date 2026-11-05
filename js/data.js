@@ -10,6 +10,8 @@
 const LINKS = {
   aclsDashboard: "https://estrea07203388.github.io/acls-dashboard"  // 既有 ACLS／ALS 儀表板；換網址請改這一行
 };
+/* 講師演講資料 PDF 所在的網站（acls-dashboard 的 GitHub Pages） */
+const LECTURE_BASE = "https://estrea07203388.github.io/acls-dashboard/";
 
 const ZONES = [
   {
@@ -31,6 +33,27 @@ const ZONES = [
     resources: [
       { name: "課前資料（講義）", url: null },
       { name: "課前測驗", url: null }
+    ],
+    /* 【講師演講資料】檔案放在 acls-dashboard repo；新增時照格式加一行：
+       { speaker: "講師姓名", topic: "主題", file: "資料夾/檔名.pdf" }
+       file 是 acls-dashboard 裡的路徑，網址會自動組成 */
+    lectures: [
+      { group: "講師演講資料 1", items: [
+        { speaker: "許志新 醫師", topic: "2025 Post-Arrest Care（復甦後照護）", file: "講師演講資料1/許志新醫師_2025 Post-Arrest_Care 許志新 (1).pdf" },
+        { speaker: "趙從賢 醫師", topic: "AHA 2025 ACLS Update Course", file: "講師演講資料1/趙從賢醫師=AHA_2025_ACLS_Update Course_趙從賢 (1).pdf" },
+        { speaker: "陳春廷 醫師", topic: "2025 ACLS Update：Tachy／Brady（心搏過速／過緩）", file: "講師演講資料1/陳春廷醫師-2025 ACLS update_Tachy_Brady_陳春廷 (1).pdf" },
+        { speaker: "黃明堃 醫師", topic: "ACLS Update：成人及小兒基本救命術（2026）", file: "講師演講資料1/黃明堃醫師-ACLS Update_成人及小兒基本救命術_2026.pdf" }
+      ]},
+      { group: "講師演講資料 2", items: [
+        { speaker: "朱昌宏 醫師", topic: "再認證投影片講稿（0314 更新）", file: "講師演講資料2/朱昌宏醫師(更新)-(0314改)0314再認證投影片講稿.pdf" },
+        { speaker: "李宜恭 醫師", topic: "ACLS + PALS", file: "講師演講資料2/李宜恭醫師_ACLS + PALS.pdf" },
+        { speaker: "王晨旭 醫師", topic: "2025 ACLS Update Course：ACLS／PALS（2026/03/21）", file: "講師演講資料2/王晨旭醫師-2025ACLSupdateCourse-ACLS_PALS-20260321 (1).pdf" }
+      ]},
+      { group: "講師演講資料 3", items: [
+        { speaker: "張櫻馨 醫師", topic: "ACLS Update", file: "講師演講資料3/張櫻馨醫師-update-張櫻馨 (1).pdf" },
+        { speaker: "柯穎志 醫師", topic: "2025 ACLS Update Course 重點", file: "講師演講資料3/柯穎志醫師-2025 ACLS Update Course 重點 (2).pdf" },
+        { speaker: "莊佳璋 醫師", topic: "ACLS Update（成大場）：成人及小兒 BLS", file: "講師演講資料3/莊佳璋醫師-ACLS_update_成大場_[Adult___Ped_BLS_莊][2] (1).pdf" }
+      ]}
     ],
     dashboard: true
   },
