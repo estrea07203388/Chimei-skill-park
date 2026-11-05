@@ -314,3 +314,18 @@ body { padding-bottom: 76px; }
 .lectures .res li > span{display:flex;flex-direction:column;min-width:0}
 .lectures .res small{color:var(--muted);font-size:13px;line-height:1.4}
 .lectures .res a{flex:none;font-weight:700;white-space:nowrap}
+
+/* ===== 課程：學員回饋（問卷統計） ===== */
+.feedback{display:flex;flex-direction:column;gap:10px}
+.fb-meta{margin:0;font-size:13px;color:var(--muted)}
+.fb-legend{margin:0;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fb-legend span{display:inline-block;width:12px;height:12px;border-radius:3px;margin-left:6px}
+.fb-legend span:first-child{margin-left:0}
+.fb-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.fb-q{margin:0 0 4px;font-size:14px}
+.fb-bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--line);gap:2px}
+.fb-bar span{display:block;height:100%}
+.feedback .sa{background:var(--c-airway)}
+.feedback .a{background:color-mix(in srgb,var(--c-airway) 45%,#fff)}
+.feedback .n{background:#b9b2a6}
+.fb-n{margin:4px 0 0;font-size:12px;color:var(--muted)}

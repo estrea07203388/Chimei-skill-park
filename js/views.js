@@ -22,6 +22,20 @@ document.getElementById("zoneList").innerHTML = ZONES.map(z => `
 
 /* ---------- 園區面板 ---------- */
 const selected = {};   // 每個園區目前選到第幾門課
+/* 學員回饋：問卷統計（非常同意／同意／普通） */
+function feedbackHTML(f){
+  const pct = (n, t) => Math.round(n / t * 100);
+  const rows = f.items.map(it => { const t = it.scale.reduce((a,b)=>a+b,0), [sa, a, n] = it.scale;
+    return `<li><p class="fb-q">${esc(it.q)}</p>
+      <div class="fb-bar" role="img" aria-label="非常同意 ${sa} 人、同意 ${a} 人、普通 ${n} 人">
+        <span class="sa" style="width:${pct(sa,t)}%"></span><span class="a" style="width:${pct(a,t)}%"></span><span class="n" style="width:${pct(n,t)}%"></span></div>
+      <p class="fb-n">同意以上 <b>${pct(sa+a,t)}%</b>（非常同意 ${sa}・同意 ${a}${n?`・普通 ${n}`:""}）</p></li>`; }).join("");
+  return `<section class="feedback"><h3 class="sec">學員回饋</h3>
+    <p class="fb-meta">${esc(f.source)}・共 ${f.total} 份・${f.sessions.map(esc).join("、")}<br>${esc(f.respondents)}</p>
+    <p class="fb-legend" aria-hidden="true"><span class="sa"></span>非常同意<span class="a"></span>同意<span class="n"></span>普通</p>
+    <ul class="fb-list">${rows}</ul>
+    <h3 class="sec">回饋重點</h3><ul class="prep">${f.highlights.map(h=>`<li>${esc(h)}</li>`).join("")}</ul></section>`;
+}
 function courseHTML(z, c){
   const prep = c.prep && c.prep.length ? `<ul class="prep">${c.prep.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>` : val(null);
   return `<article class="course" aria-live="polite">
@@ -33,6 +47,7 @@ function courseHTML(z, c){
       <div><dt>地點</dt><dd>${val(c.location)}</dd></div>
     </dl>
     <div><h3 class="sec">課前準備</h3>${prep}</div>
+    ${c.feedback ? feedbackHTML(c.feedback) : ""}
     <div class="actions">
       ${linkBtn(c.signup, "前往報名")}
       <button class="btn line" type="button" data-copy="${z.id}">複製課程資訊</button>
