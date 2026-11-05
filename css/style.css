@@ -325,12 +325,22 @@ body { padding-bottom: 76px; }
 .fb-q{margin:0 0 4px;font-size:14px}
 .fb-bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--line);gap:2px}
 .fb-bar span{display:block;height:100%}
-.feedback .sa{background:var(--c-airway)}
-.feedback .a{background:color-mix(in srgb,var(--c-airway) 45%,#fff)}
-.feedback .n{background:#b9b2a6}
+/* 量表顏色：由高到低（l0 最正面，跟著園區主色） */
+.feedback .l0{background:var(--zc)}
+.feedback .l1{background:color-mix(in srgb,var(--zc) 45%,#fff)}
+.feedback .l2{background:#b9b2a6}
+.feedback .l3{background:#d9917e}
+.feedback .l4{background:#a8452f}
+.fb-row{display:flex;align-items:center;gap:8px}
+.fb-row .fb-bar{flex:1}
+.fb-tag{flex:none;font-size:12px;color:var(--muted);width:2.6em}
+.fb-count{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.fb-count li{display:grid;grid-template-columns:minmax(6em,auto) 1fr auto;align-items:center;gap:10px;font-size:14px}
+.fb-cbar{height:10px;border-radius:999px;background:var(--line);overflow:hidden}
+.fb-cbar span{display:block;height:100%;background:var(--zc)}
 .fb-n{margin:4px 0 0;font-size:12px;color:var(--muted)}
 .fb-comments{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:0 14px}
 .fb-comments summary{cursor:pointer;padding:12px 0;font-weight:700;display:flex;justify-content:space-between;gap:10px;list-style-position:inside}
 .fb-comments summary small{color:var(--muted);font-weight:400}
 .fb-comments ul{margin:0 0 12px;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
-.fb-comments li{background:color-mix(in srgb,var(--c-airway) 10%,#fff);border-left:3px solid var(--c-airway);border-radius:6px;padding:8px 12px;font-size:14px;line-height:1.55}
+.fb-comments li{background:color-mix(in srgb,var(--zc) 10%,#fff);border-left:3px solid var(--zc);border-radius:6px;padding:8px 12px;font-size:14px;line-height:1.55}

@@ -22,19 +22,36 @@ document.getElementById("zoneList").innerHTML = ZONES.map(z => `
 
 /* ---------- 園區面板 ---------- */
 const selected = {};   // 每個園區目前選到第幾門課
-/* 學員回饋：問卷統計（非常同意／同意／普通） */
+/* 學員回饋：問卷統計
+   - levels：量表選項（由高到低），預設「非常同意／同意／普通」；scale 是各選項人數，順序同 levels
+   - 「同意以上」＝前兩個選項的比例
+   - compare：同一組題目的前後比較（例如課前／課後自評）
+   - counts：複選題等的人數統計 */
+const FB_LEVELS = ["非常同意", "同意", "普通"];
+function fbBar(scale, levels){
+  const t = scale.reduce((a,b)=>a+b,0) || 1;
+  return `<div class="fb-bar" role="img" aria-label="${levels.map((l,i)=>`${l} ${scale[i]||0} 人`).join("、")}">${
+    scale.map((n,i)=>n?`<span class="l${i}" style="width:${n/t*100}%"></span>`:"").join("")}</div>`;
+}
+function fbNote(scale, levels, top){
+  const t = scale.reduce((a,b)=>a+b,0) || 1;
+  return `${top} <b>${Math.round((scale[0]+(scale[1]||0))/t*100)}%</b>（${levels.map((l,i)=>scale[i]?`${l} ${scale[i]}`:"").filter(Boolean).join("・")}）`;
+}
+function fbLegend(levels){ return `<p class="fb-legend" aria-hidden="true">${levels.map((l,i)=>`<span class="l${i}"></span>${esc(l)}`).join("")}</p>`; }
 function feedbackHTML(f){
-  const pct = (n, t) => Math.round(n / t * 100);
-  const rows = f.items.map(it => { const t = it.scale.reduce((a,b)=>a+b,0), [sa, a, n] = it.scale;
-    return `<li><p class="fb-q">${esc(it.q)}</p>
-      <div class="fb-bar" role="img" aria-label="非常同意 ${sa} 人、同意 ${a} 人、普通 ${n} 人">
-        <span class="sa" style="width:${pct(sa,t)}%"></span><span class="a" style="width:${pct(a,t)}%"></span><span class="n" style="width:${pct(n,t)}%"></span></div>
-      <p class="fb-n">同意以上 <b>${pct(sa+a,t)}%</b>（非常同意 ${sa}・同意 ${a}${n?`・普通 ${n}`:""}）</p></li>`; }).join("");
+  const levels = f.levels || FB_LEVELS, top = f.topLabel || "同意以上";
+  const rows = f.items.map(it => `<li><p class="fb-q">${esc(it.q)}</p>${fbBar(it.scale, levels)}<p class="fb-n">${fbNote(it.scale, levels, top)}</p></li>`).join("");
+  const cmp = f.compare ? `<h3 class="sec">${esc(f.compare.title)}</h3>${f.compare.note?`<p class="fb-meta">${esc(f.compare.note)}</p>`:""}${fbLegend(f.compare.levels)}
+    <ul class="fb-list">${f.compare.items.map(it => `<li><p class="fb-q">${esc(it.q)}</p>${[[f.compare.before, it.before],[f.compare.after, it.after]].filter(x=>x[1]).map(([lab, sc]) =>
+      `<div class="fb-row"><span class="fb-tag">${esc(lab)}</span>${fbBar(sc, f.compare.levels)}</div><p class="fb-n">${esc(lab)}：${fbNote(sc, f.compare.levels, f.compare.topLabel || "能做到以上")}</p>`).join("")}</li>`).join("")}</ul>` : "";
+  const counts = (f.counts||[]).map(c => { const max = Math.max(...c.rows.map(r=>r[1]));
+    return `<h3 class="sec">${esc(c.title)}</h3><ul class="fb-count">${c.rows.map(([l,n]) => `<li><span>${esc(l)}</span><span class="fb-cbar"><span style="width:${n/max*100}%"></span></span><b>${n} 人</b></li>`).join("")}</ul>`; }).join("");
   return `<section class="feedback"><h3 class="sec">學員回饋</h3>
     <p class="fb-meta">${esc(f.source)}・共 ${f.total} 份・${f.sessions.map(esc).join("、")}<br>${esc(f.respondents)}</p>
-    <p class="fb-legend" aria-hidden="true"><span class="sa"></span>非常同意<span class="a"></span>同意<span class="n"></span>普通</p>
+    ${fbLegend(levels)}
     <ul class="fb-list">${rows}</ul>
-    <h3 class="sec">回饋重點</h3><ul class="prep">${f.highlights.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>
+    ${cmp}${counts}
+    ${(f.highlights||[]).length ? `<h3 class="sec">回饋重點</h3><ul class="prep">${f.highlights.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>` : ""}
     ${(f.comments||[]).length ? `<h3 class="sec">學員回饋原文（匿名）</h3>${f.comments.map((g,k)=>`
       <details class="fb-comments"${k===0?" open":""}><summary>${esc(g.title)}<small>${g.items.length} 則</small></summary>
         <ul>${g.items.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></details>`).join("")}` : ""}</section>`;
