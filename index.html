@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>奇美臨床技能樂園</title>
+<!-- 字型：有網路時載入 Noto 字型，離線時自動改用系統字型 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&family=Oswald:wght@700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== 圖示庫（地圖招牌與清單共用）===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- 急救：心電波形 + 電擊器貼片 -->
+    <symbol id="ic-acls" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 27h7l3-6 3 11 4-21 4 27 3-11h5"/><rect x="35" y="12" width="10" height="8" rx="2.5"/><rect x="35" y="28" width="10" height="8" rx="2.5"/>
+      <path d="M40 20v3c0 2-2 2-2 4M40 36v4"/></g></symbol>
+    <!-- 微創：腹腔鏡抓鉗 + 縫針縫線 -->
+    <symbol id="ic-mis" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="7" cy="41" r="3.5"/><path d="M10 38 27 21"/><path d="M27 21l9-11M27 21l11-4"/>
+      <path d="M26 42a11 11 0 0 1 17-11"/><path d="M26 42c-3 3-8 2-10-1s-6-2-8 0"/></g></symbol>
+    <!-- 超音波：探頭 + 扇形掃描 -->
+    <symbol id="ic-us" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 3h10v11l3 6H16l3-6z"/><path d="M17 24 7 44a25 25 0 0 0 34 0L31 24"/><path d="M14 36a13 13 0 0 0 20 0"/><path d="M18 30a7 7 0 0 0 12 0"/></g></symbol>
+    <!-- 呼吸道：氣管與支氣管模型 -->
+    <symbol id="ic-airway" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="19" y="3" width="10" height="22" rx="3"/><path d="M19 9h10M19 14h10M19 19h10"/>
+      <path d="M21 25 12 38M27 25l9 13"/><path d="M12 38l-5 5M12 38l1 6M36 38l5 5M36 38l-1 6"/></g></symbol>
+    <!-- 情境模擬：病床 + 監視器 -->
+    <symbol id="ic-sim" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 34h42M5 34v9M43 34v9"/><path d="M5 34v-8h20a5 5 0 0 1 5 5v3"/><rect x="8" y="27" width="8" height="4" rx="2"/>
+      <rect x="29" y="5" width="16" height="13" rx="2"/><path d="M31 12h3l2-3 2 6 2-3h3"/><path d="M37 18v6"/></g></symbol>
+    <!-- 服務中心：資訊 i -->
+    <symbol id="ic-service" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
+      <circle cx="24" cy="24" r="19"/><path d="M24 21v13"/></g><circle cx="24" cy="14" r="2.4" fill="currentColor"/></symbol>
+    <symbol id="ic-cal" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="6" y="9" width="36" height="33" rx="5"/><path d="M6 19h36M16 4v9M32 4v9"/><path d="M15 27h4M22 27h4M29 27h4M15 34h4M22 34h4"/></g></symbol>
+    <symbol id="ic-ticket" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M4 14h40v6a4 4 0 0 0 0 8v6H4v-6a4 4 0 0 0 0-8z"/><path d="M30 15v18" stroke-dasharray="3 3"/></g></symbol>
+    <symbol id="ic-park" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 42V22a18 18 0 0 1 36 0v20"/><path d="M14 42V26a10 10 0 0 1 20 0v16"/><path d="M24 4v6"/><path d="M24 4l7 2.5-7 2.5"/></g></symbol>
+    <!-- 樹 -->
+    <g id="tree">
+      <ellipse cx="5" cy="15" rx="16" ry="5.5" fill="#12355b" opacity=".13"/>
+      <circle r="15.5" fill="#4a9372"/><circle cx="-5" cy="-3" r="10.5" fill="#69b18c"/><circle cx="6" cy="-6" r="7.5" fill="#7fc29e"/>
+      <circle cx="-7" cy="-7" r="4" fill="#a4d8b9"/><circle cx="7" cy="6" r="4.5" fill="#3f8565"/>
+      <circle cx="-2" cy="4" r="1.6" fill="#e8694a"/><circle cx="8" cy="-1" r="1.4" fill="#e8694a"/></g>
+    <g id="pine">
+      <ellipse cx="5" cy="15" rx="13" ry="5" fill="#12355b" opacity=".13"/>
+      <path d="M0 -22 13 4H-13z" fill="#3f8565"/><path d="M0 -14 15 12H-15z" fill="#4a9372"/><path d="M0 -22 13 4H0z" fill="#2f6f53" opacity=".5"/>
+      <path d="M0 -14 15 12H0z" fill="#2f6f53" opacity=".35"/><rect x="-2" y="12" width="4" height="5" fill="#7a5a3a"/></g>
+    <filter id="soft" x="-20%" y="-30%" width="140%" height="170%"><feDropShadow dx="0" dy="3" stdDeviation="2.4" flood-color="#12355b" flood-opacity=".22"/></filter>
+    <radialGradient id="lakeG" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#bfe4f0"/><stop offset=".65" stop-color="#8fc8dd"/><stop offset="1" stop-color="#5aa9c9"/></radialGradient>
+  </defs>
+</svg>
+
+<header class="wrap site">
+  <a class="brand" href="#map" aria-label="回到導覽地圖">
+    <span class="brand-mark"><svg><use href="#ic-park"/></svg></span>
+    <span><small>奇美醫院 · 臨床技能中心</small><b>奇美臨床技能樂園</b></span>
+  </a>
+  <nav class="nav" aria-label="主要選單">
+    <a href="#map" data-nav="map">導覽地圖</a>
+    <a href="#upcoming" data-nav="upcoming">近期課程</a>
+    <a href="#pgy" data-nav="pgy">PGY 導覽票</a>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <!-- ================= 首頁：導覽地圖 ================= -->
+  <section id="view-map" class="view" aria-labelledby="park-title">
+    <div class="hero-mobile">
+      <h1 id="park-title">奇美臨床技能樂園</h1>
+      <p>從模擬練習，到臨床應用</p>
+    </div>
+
+    <div class="map-area">
+      <div class="map-wrap" id="mapWrap" data-shift="day">
+        <div id="scene3d" role="img" aria-label="奇美臨床技能樂園 3D 導覽島：可拖曳旋轉、縮放，點建築或名牌進入園區"></div>
+        <div id="labels3d"></div>
+        <div class="hud hud-tl"><div class="brandcard"><div class="bc-en">SKILLS<br>PARK.</div><div class="bc-zh"><b>奇美臨床技能樂園</b><small>從模擬練習，到臨床應用</small></div></div></div>
+        <div class="hud hud-tr">
+          <div class="hud-btns">
+            <button type="button" id="btnHome" class="hbtn">⟲ 全景</button>
+            <button type="button" id="btnList" class="hbtn" aria-expanded="false" aria-controls="listPanel">☰ 清單</button>
+            <a class="hbtn primary" href="#pgy">▶ PGY 導覽</a>
+          </div>
+          <div class="searchbox"><label class="sr-only" for="q3d">搜尋課程</label><input id="q3d" type="search" placeholder="搜尋課程：腹腔鏡、ACLS、超音波…" autocomplete="off"><div id="q3dResults" class="dropdown" hidden></div></div>
+          <div id="listPanel" class="dropdown" hidden></div>
+        </div>
+        <div class="hud hud-bl">
+          <div class="seg" role="group" aria-label="時段">
+            <button type="button" data-shift="day" aria-pressed="true">☀ 白班</button><button type="button" data-shift="eve" aria-pressed="false">◐ 小夜</button><button type="button" data-shift="night" aria-pressed="false">☾ 大夜</button>
+          </div>
+          <div class="toggles">
+            <label class="tgl"><input type="checkbox" id="tgLabels" checked><span class="sw"></span>名牌</label>
+            <label class="tgl"><input type="checkbox" id="tgRoute"><span class="sw"></span>PGY 路線</label>
+            <label class="tgl"><input type="checkbox" id="tgSpin"><span class="sw"></span>自轉</label>
+          </div>
+          <div class="chips3d" id="chips3d"></div>
+        </div>
+        <div class="hud-hint">拖曳旋轉・滾輪縮放・點建築或名牌進入園區</div>
+      </div>
+      <!-- 入口廣場旁的兩個快速按鈕（桌機跟著入口移動；手機版排在清單上方） -->
+      <div class="plaza" id="plaza">
+        <a class="cta primary" href="#upcoming"><svg aria-hidden="true"><use href="#ic-cal"/></svg>近期課程</a>
+        <a class="cta ticket" href="#pgy"><svg aria-hidden="true"><use href="#ic-ticket"/></svg>PGY 導覽票</a>
+      </div>
+    </div>
+
+    <!-- 手機版：園區清單（由程式依課程資料產生） -->
+    <ul class="zone-list" id="zoneList" aria-label="園區清單"></ul>
+    <p class="map-note">點地圖上的園區查看課程。標示「待公告」「連結待補」的欄位，代表院方尚未提供正式資訊。</p>
+  </section>
+
+  <!-- ================= 園區課程面板 ================= -->
+  <section id="view-zone" class="view" hidden></section>
+
+  <!-- ================= 近期課程 ================= -->
+  <section id="view-upcoming" class="view" hidden>
+    <div class="panel"><div class="panel-body">
+      <a class="back" href="#map">← 返回地圖</a>
+      <div class="page-head">
+        <div><div class="eyebrow" style="color:var(--muted)">ALL COURSES</div><h2 tabindex="-1" id="upcoming-title">近期課程</h2></div>
+        <label class="sr-only" for="q">搜尋課程</label>
+        <input class="search" id="q" type="search" placeholder="搜尋課名，例如：腹腔鏡">
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="依園區篩選"></div>
+      <div class="scroll"><table class="upcoming">
+        <thead><tr><th>園區</th><th>課程</th><th>日期</th><th>地點</th><th>報名</th></tr></thead>
+        <tbody id="upcomingRows"></tbody>
+      </table></div>
+      <p class="hint">開課日期、地點與報名連結公告後，更新程式內的課程資料即會自動出現在這裡。</p>
+    </div></div>
+  </section>
+
+  <!-- ================= PGY 導覽票 ================= -->
+  <section id="view-pgy" class="view" hidden>
+    <div class="panel"><div class="panel-body">
+      <a class="back" href="#map">← 返回地圖</a>
+      <div class="page-head"><div><div class="eyebrow" style="color:var(--muted)">PGY PASS</div><h2 tabindex="-1" id="pgy-title">PGY 導覽票</h2></div></div>
+      <div class="ticket-card">
+        <div class="stub"><div><small>ADMIT ONE · PGY</small><div class="big">PGY<br>導覽票</div></div><small>共 <span id="pgyCount">3</span> 站</small></div>
+        <div><ol class="stops" id="pgyStops"></ol>
+          <p class="ticket-foot">打卡紀錄只存在你自己的瀏覽器，方便追蹤進度。修課資格、日期與地點以院方公告為準。</p></div>
+      </div>
+    </div></div>
+  </section>
+</main>
+
+<p class="foot">奇美醫院 臨床技能中心 · 網頁原型（課程資訊以院方正式公告為準）</p>
+
+<!-- 第三方函式庫（已放在本地，離線也能開啟） -->
+<script src="js/vendor/three.min.js"></script>
+<script src="js/vendor/OrbitControls.js"></script>
+<!-- 網站程式（順序不可調換） -->
+<script src="js/data.js"></script>
+<script src="js/views.js"></script>
+<script src="js/map3d.js"></script>
+<script src="js/router.js"></script>
+</body>
+</html>
