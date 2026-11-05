@@ -147,13 +147,10 @@ const ZONES = [
   {
     id: "us", name: "超音波探索館", color: "var(--c-us)", icon: "ic-us",
     tagline: "CVC 定位・心臟・腹部超音波",
-    intro: "用超音波看見身體裡的結構，練習引導下的定位與進階掃描判讀。",
+    intro: "用超音波看見身體裡的結構，練習引導下的定位，以及心臟、腹部超音波的掃描與判讀。",
     courses: [
       { id: "cvc", name: "中央靜脈導管超音波定位", pgy: true,
         summary: "在超音波引導下辨識目標靜脈與周邊構造，練習置放中央靜脈導管前的定位與穿刺路徑規劃。",
-        audience: null, date: null, location: null, prep: [], signup: null },
-      { id: "usadv", name: "進階超音波模擬",
-        summary: "使用超音波模擬器練習進階掃描切面與影像判讀。",
         audience: null, date: null, location: null, prep: [], signup: null },
       /* tab：Google 試算表裡這門課的分頁名稱（梯次會自動從分頁讀取） */
       { id: "echo", name: "心臟超音波", tab: "心臟超音波",
