@@ -62,28 +62,37 @@
 
   const list = Object.values(courses).filter(c => c.tab);
   if (!list.length){ log(false, "js/data.js 裡沒有任何課程設定 tab（分頁名稱）"); return; }
-  const seen = new Map();
-  Promise.all(list.map(c => {
-    const tab = c.tab;
-    return readTab(tab).then(rows => {
+  // 1) 先把每個分頁都讀回來
+  Promise.all(list.map(c => readTab(c.tab).then(rows => ({ c, rows })).catch(err => { log(false, err.message); return { c, rows: null }; })))
+  .then(results => {
+    // 2) Google 遇到不存在的分頁名稱時會改回傳第一個分頁；兩門課讀到一模一樣的內容時無法判斷哪個才對，全部不套用
+    const bySig = {};
+    results.forEach(r => { if (r.rows && r.rows.length){ const k = JSON.stringify(r.rows); (bySig[k] = bySig[k] || []).push(r); } });
+    Object.values(bySig).filter(g => g.length > 1).forEach(g => {
+      log(false, `分頁「${g.map(r => r.c.tab).join("」「")}」讀到的內容一模一樣，其中可能有分頁名稱打錯（Google 會改回傳第一個分頁），這幾門課先不套用`);
+      g.forEach(r => { r.rows = null; });
+    });
+    // 3) 套用梯次
+    let n = 0;
+    results.forEach(({ c, rows }) => {
+      if (!rows) return;
+      const tab = c.tab;
       const ss = rows.map(r => ({ batch: r["梯次"], date: r["日期"], time: r["時間"], location: r["地點"],
                                   seats: r["名額"], signup: r["報名連結"], note: r["備註"], day: dayOf(r["日期"] || "") }))
                      .filter(s => s.date || s.batch);
       log(ss.length ? true : null, `${c.name}：分頁「${tab}」有 ${ss.length} 梯` + (ss.length ? `（${ss.map(s => (s.batch||"") + " " + (s.date||"") + (s.day ? "" : "⚠️日期格式看不懂")).join("、")}）` : "（沒有填梯次）"));
-      // Google 遇到不存在的分頁名稱時會回傳第一個分頁；內容和別的課程一模一樣時視為讀錯分頁
-      const sig = JSON.stringify(rows); if (seen.has(sig)) throw new Error(`分頁「${tab}」的內容和「${seen.get(sig)}」完全相同，可能是分頁名稱打錯（Google 會改回傳第一個分頁）`); seen.set(sig, tab);
+      if (!ss.length) return;
       ss.sort((a, b) => (a.day ? a.day.getTime() : Infinity) - (b.day ? b.day.getTime() : Infinity));
       ss.forEach(s => { s.past = !!(s.day && s.day < today); });
-      if (!ss.length) return c;
-      c.sessions = ss;
-      const next = ss.find(s => !s.past);
+      c.sessions = ss; n++;
+      const upcoming = ss.filter(s => !s.past), next = upcoming[0];
       if (next){   // 卡片、近期課程顯示「下一梯」
-        c.date = [next.date, next.time].filter(Boolean).join(" ") + (ss.filter(s=>!s.past).length > 1 ? `（共 ${ss.filter(s=>!s.past).length} 梯）` : "");
+        c.date = [next.date, next.time].filter(Boolean).join(" ") + (upcoming.length > 1 ? `（共 ${upcoming.length} 梯）` : "");
         if (next.location) c.location = next.location;
         if (next.signup) c.signup = next.signup;
       } else c.date = "本期梯次已結束";
-      return c;
-    }).catch(err => { log(false, err.message); return c; });
-  })).then(done => { const n = done.filter(c => c.sessions).length; log(n ? true : null, `完成：${n} 門課有梯次資料`); if (n){ window.SHEET_LOADED = n; route(); } })
-    .catch(err => log(false, err.message + "（網站改用 data.js 的資料）"));
+    });
+    log(n ? true : null, `完成：${n} 門課有梯次資料`);
+    if (n){ window.SHEET_LOADED = n; route(); }
+  });
 })();
