@@ -10,6 +10,10 @@
 const LINKS = {
   aclsDashboard: "https://estrea07203388.github.io/acls-dashboard"  // 既有 ACLS／ALS 儀表板；換網址請改這一行
 };
+/* 【Google 試算表】課程的對象、日期、地點、課前準備、報名連結可以改在試算表維護。
+   把 Google 試算表「檔案 → 共用 → 發布到網路 → CSV」產生的網址貼在下面（null＝不使用試算表） */
+const SHEET_CSV_URL = null;
+
 /* 講師演講資料 PDF 所在的網站（acls-dashboard 的 GitHub Pages） */
 const LECTURE_BASE = "https://estrea07203388.github.io/acls-dashboard/";
 

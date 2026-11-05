@@ -17,6 +17,7 @@ Chimei-skill-park/
 │   ├── views.js               # 畫面渲染：園區頁、近期課程（篩選/搜尋）、PGY 導覽票
 │   ├── map3d.js               # 3D 導覽島（three.js）與地圖上的 HUD 介面
 │   ├── router.js              # 頁面切換（以網址 # 記錄目前頁面）
+│   ├── sheet.js               # 從 Google 試算表自動匯入課程資訊
 │   └── vendor/
 │       ├── three.min.js       # three.js r147（MIT）
 │       └── OrbitControls.js   # three.js 的地圖操作控制器
@@ -28,7 +29,7 @@ Chimei-skill-park/
 
 `index.html` 底部依序載入：
 
-1. `vendor/three.min.js` → 2. `vendor/OrbitControls.js` → 3. `data.js` → 4. `views.js` → 5. `map3d.js` → 6. `router.js`
+1. `vendor/three.min.js` → 2. `vendor/OrbitControls.js` → 3. `data.js` → 4. `views.js` → 5. `map3d.js` → 6. `router.js` → 7. `sheet.js`
 
 這些都是一般 `<script>`（非 ES module），彼此透過全域變數共用（例如 `ZONES`、`go()`、`route()`），因此後面的檔案依賴前面的檔案；也因為不是 module，用 `file://` 直接開啟仍可正常運作。
 
@@ -53,6 +54,32 @@ Chimei-skill-park/
 - 尚未提供的欄位請保留 `null`，畫面會自動顯示「待公告」或「連結待補」。
 - 日期建議寫成文字，例如 `"2027/03/14（六）09:00–17:00"`。
 - `signup`：報名網址；`resources[].url`：課前資料網址。
+
+## 用 Google 試算表更新課程資訊（不用改程式）
+
+課程的**適合對象、日期、地點、課前準備、報名連結**可以改在 Google 試算表維護，網站打開時會自動讀取。
+
+### 第一次設定
+1. 下載 `templates/課程資料範本.csv`，在 Google 試算表選「檔案 → 匯入 → 上傳」，匯入方式選「取代目前的工作表」。
+2. 選「檔案 → 共用 → 發布到網路」，連結選該工作表、格式選「**逗號分隔值 (.csv)**」，按「發布」。
+3. 把產生的網址（`https://docs.google.com/spreadsheets/d/e/…/pub?…output=csv`）貼到 `js/data.js` 的 `SHEET_CSV_URL`。
+
+### 之後更新
+直接改試算表即可，網站重新整理後就會更新（Google 發布的內容可能有約 5 分鐘延遲）。
+
+### 欄位說明
+| 欄位 | 說明 |
+| --- | --- |
+| 課程代碼（請勿修改） | 對應網站上的課程，**不要改**；新增課程請先在 `js/data.js` 加課程 |
+| 園區 | 只是方便閱讀，網站不讀這欄 |
+| 課程名稱 | 有填就會取代網站上的課程名稱 |
+| 適合對象、日期、地點 | 文字，例如 `2026/12/10（四）13:30–17:00` |
+| 課前準備 | 多項請用全形分號「；」隔開，例如 `閱讀講義；完成課前測驗` |
+| 報名連結 | 完整網址，以 `https://` 開頭 |
+
+- 空白的欄位會維持 `js/data.js` 原本的內容（顯示「待公告」）。
+- 試算表會公開，**請不要放個資**。
+- 讀不到試算表時（沒網路、網址錯誤），網站會照常使用 `js/data.js` 的資料。
 
 ## 製作過程
 
