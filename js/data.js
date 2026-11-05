@@ -276,7 +276,7 @@ const ZONES = [
   },
   {
     id: "sim", name: "情境模擬館", color: "var(--c-sim)", icon: "ic-sim",
-    tagline: "TRM・SimMan・團隊演練",
+    tagline: "TRM・SimMan・VR 沉浸式模擬",
     intro: "在模擬病房裡重現臨床情境，練習團隊合作、溝通與危機處理。",
     courses: [
       { id: "trm", name: "醫療團隊資源管理（TRM）",
@@ -332,8 +332,8 @@ const ZONES = [
       { id: "simman", name: "SimMan 高擬真情境模擬",
         summary: "使用高擬真模擬人重現急重症情境，演練後進行引導式回饋。",
         audience: null, date: null, location: null, prep: [], signup: null },
-      { id: "team", name: "跨職類團隊演練",
-        summary: "醫師、護理師與其他職類依情境分工，演練團隊協作。",
+      { id: "vr", name: "VR沉浸式模擬訓練",
+        summary: "戴上 VR 裝置進入虛擬臨床情境，以沉浸式體驗練習評估、處置與團隊溝通。",
         audience: null, date: null, location: null, prep: [], signup: null }
     ]
   },
