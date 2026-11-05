@@ -43,6 +43,7 @@ Chimei-skill-park/
 | 調整顏色、字型、版面 | `css/style.css` |
 | 調整 3D 地圖的園區位置、遊樂設施 | `js/map3d.js`（`ZA`、`WHEEL`、`COAST`、`TOWER`） |
 | 修改頁首、導覽列、頁面區塊文字 | `index.html` |
+| 修改「返回 OSCE 學習島」按鈕的連結／樣式 | `index.html` 頁首（連結）、`css/style.css` 最下方（樣式） |
 
 資料欄位說明：
 
