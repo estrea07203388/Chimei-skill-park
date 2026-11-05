@@ -329,3 +329,8 @@ body { padding-bottom: 76px; }
 .feedback .a{background:color-mix(in srgb,var(--c-airway) 45%,#fff)}
 .feedback .n{background:#b9b2a6}
 .fb-n{margin:4px 0 0;font-size:12px;color:var(--muted)}
+.fb-comments{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:0 14px}
+.fb-comments summary{cursor:pointer;padding:12px 0;font-weight:700;display:flex;justify-content:space-between;gap:10px;list-style-position:inside}
+.fb-comments summary small{color:var(--muted);font-weight:400}
+.fb-comments ul{margin:0 0 12px;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.fb-comments li{background:color-mix(in srgb,var(--c-airway) 10%,#fff);border-left:3px solid var(--c-airway);border-radius:6px;padding:8px 12px;font-size:14px;line-height:1.55}

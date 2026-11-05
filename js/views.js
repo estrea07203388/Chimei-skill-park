@@ -34,7 +34,10 @@ function feedbackHTML(f){
     <p class="fb-meta">${esc(f.source)}・共 ${f.total} 份・${f.sessions.map(esc).join("、")}<br>${esc(f.respondents)}</p>
     <p class="fb-legend" aria-hidden="true"><span class="sa"></span>非常同意<span class="a"></span>同意<span class="n"></span>普通</p>
     <ul class="fb-list">${rows}</ul>
-    <h3 class="sec">回饋重點</h3><ul class="prep">${f.highlights.map(h=>`<li>${esc(h)}</li>`).join("")}</ul></section>`;
+    <h3 class="sec">回饋重點</h3><ul class="prep">${f.highlights.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>
+    ${(f.comments||[]).length ? `<h3 class="sec">學員回饋原文（匿名）</h3>${f.comments.map((g,k)=>`
+      <details class="fb-comments"${k===0?" open":""}><summary>${esc(g.title)}<small>${g.items.length} 則</small></summary>
+        <ul>${g.items.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></details>`).join("")}` : ""}</section>`;
 }
 function courseHTML(z, c){
   const prep = c.prep && c.prep.length ? `<ul class="prep">${c.prep.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>` : val(null);
