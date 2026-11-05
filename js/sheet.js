@@ -1,14 +1,11 @@
 /* =====================================================================
-   【Google 試算表自動匯入】
-   試算表結構（網址設定在 js/data.js 的 SHEET_URL）：
-   - 「目錄」分頁：一門課一列 → 課程代碼、園區、課程名稱、適合對象、課前準備、梯次分頁
-   - 每門課一個分頁（分頁名稱＝目錄的「梯次分頁」）：一梯一列 → 梯次、日期、時間、地點、名額、報名連結、備註
-   規則：
-   - 有填的欄位會蓋過 data.js；空白的欄位維持原樣
-   - 網站顯示「下一梯」的日期、地點、報名連結；課程頁會列出全部梯次（已過的標示「已結束」）
+   【Google 試算表自動匯入】各課程的梯次
+   - 試算表網址設定在 js/data.js 的 SHEET_URL（共用連結，需「知道連結的任何人都可以檢視」）
+   - 一門課一個分頁；在 js/data.js 的課程加上 tab: "分頁名稱" 就會讀那個分頁
+   - 分頁第一列是標題：梯次、日期、時間、地點、名額、報名連結、備註（有的欄位才需要，順序可調）
+   - 一梯一列。網站依日期排序、已過的梯次標示「已結束」，卡片與近期課程顯示「下一梯」
    - 讀不到試算表時，網站照常使用 data.js 的資料
-   - 欄位以第一列的標題文字對應，順序可以調整，但標題請不要改
-   - 試算表需設定「知道連結的任何人都可以檢視」
+   - 檢查模式：網址加上 ?sheetcheck 會在畫面上顯示讀取結果
    ===================================================================== */
 (function sheetImport(){
   /* 檢查模式：網址加上 ?sheetcheck 會在畫面上顯示讀取結果，方便找問題 */
@@ -26,8 +23,7 @@
   if (!m || m[1] === "e"){ log(false, "SHEET_URL 需要是試算表的共用連結（…/spreadsheets/d/〈ID〉/edit…）"); return; }
   log(null, "試算表 ID：" + m[1]);
   const tabURL = name => `https://docs.google.com/spreadsheets/d/${m[1]}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(name)}`;
-  const INDEX_TAB = "目錄";
-
+  
   // 簡易 CSV 解析（支援雙引號、欄位內換行與逗號）
   function parseCSV(text){
     const rows = []; let row = [], cell = "", q = false;
@@ -64,17 +60,18 @@
   ZONES.forEach(z => (z.courses || []).forEach(c => { courses[c.id] = c; }));
   const today = new Date(); today.setHours(0,0,0,0);
 
-  readTab(INDEX_TAB).then(index => Promise.all(index.map(rec => {
-    const c = courses[rec["課程代碼"]]; if (!c){ log(false, `目錄有一列的課程代碼「${rec["課程代碼"]||"（空白）"}」對不上網站的課程`); return null; }
-    if (rec["課程名稱"]) c.name = rec["課程名稱"];
-    if (rec["適合對象"]) c.audience = rec["適合對象"];
-    if (rec["課前準備"]) c.prep = rec["課前準備"].split(/[；;\n]/).map(s => s.trim()).filter(Boolean);
-    const tab = rec["梯次分頁"]; if (!tab) return c;
+  const list = Object.values(courses).filter(c => c.tab);
+  if (!list.length){ log(false, "js/data.js 裡沒有任何課程設定 tab（分頁名稱）"); return; }
+  const seen = new Map();
+  Promise.all(list.map(c => {
+    const tab = c.tab;
     return readTab(tab).then(rows => {
       const ss = rows.map(r => ({ batch: r["梯次"], date: r["日期"], time: r["時間"], location: r["地點"],
                                   seats: r["名額"], signup: r["報名連結"], note: r["備註"], day: dayOf(r["日期"] || "") }))
                      .filter(s => s.date || s.batch);
       log(ss.length ? true : null, `${c.name}：分頁「${tab}」有 ${ss.length} 梯` + (ss.length ? `（${ss.map(s => (s.batch||"") + " " + (s.date||"") + (s.day ? "" : "⚠️日期格式看不懂")).join("、")}）` : "（沒有填梯次）"));
+      // Google 遇到不存在的分頁名稱時會回傳第一個分頁；內容和別的課程一模一樣時視為讀錯分頁
+      const sig = JSON.stringify(rows); if (seen.has(sig)) throw new Error(`分頁「${tab}」的內容和「${seen.get(sig)}」完全相同，可能是分頁名稱打錯（Google 會改回傳第一個分頁）`); seen.set(sig, tab);
       ss.sort((a, b) => (a.day ? a.day.getTime() : Infinity) - (b.day ? b.day.getTime() : Infinity));
       ss.forEach(s => { s.past = !!(s.day && s.day < today); });
       if (!ss.length) return c;
@@ -87,6 +84,6 @@
       } else c.date = "本期梯次已結束";
       return c;
     }).catch(err => { log(false, err.message); return c; });
-  }))).then(done => { log(true, `完成：套用了 ${done.filter(Boolean).length} 門課`); if (done.some(Boolean)){ window.SHEET_LOADED = done.filter(Boolean).length; route(); } })
+  })).then(done => { const n = done.filter(c => c.sessions).length; log(n ? true : null, `完成：${n} 門課有梯次資料`); if (n){ window.SHEET_LOADED = n; route(); } })
     .catch(err => log(false, err.message + "（網站改用 data.js 的資料）"));
 })();

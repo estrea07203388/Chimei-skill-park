@@ -10,8 +10,8 @@
 const LINKS = {
   aclsDashboard: "https://estrea07203388.github.io/acls-dashboard"  // 既有 ACLS／ALS 儀表板；換網址請改這一行
 };
-/* 【Google 試算表】課程的對象、課前準備與各梯次（日期、地點、名額、報名連結）可以改在試算表維護。
-   把試算表的共用連結（設定「知道連結的任何人都可以檢視」）貼在下面（null＝不使用試算表）；說明見 js/sheet.js */
+/* 【Google 試算表】各課程的梯次（日期、時間、地點、名額、報名連結）在試算表維護：一門課一個分頁。
+   課程用 tab: "分頁名稱" 對應到試算表的分頁。試算表需設定「知道連結的任何人都可以檢視」；說明見 js/sheet.js */
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/1i6fG0ICT6flZ6sz7do873MAb2Jgf2hyNRTUA37yHVic/edit";
 
 /* 講師演講資料 PDF 所在的網站（acls-dashboard 的 GitHub Pages） */
@@ -146,7 +146,7 @@ const ZONES = [
   },
   {
     id: "us", name: "超音波探索館", color: "var(--c-us)", icon: "ic-us",
-    tagline: "CVC 定位・進階模擬",
+    tagline: "CVC 定位・心臟・腹部超音波",
     intro: "用超音波看見身體裡的結構，練習引導下的定位與進階掃描判讀。",
     courses: [
       { id: "cvc", name: "中央靜脈導管超音波定位", pgy: true,
@@ -154,6 +154,13 @@ const ZONES = [
         audience: null, date: null, location: null, prep: [], signup: null },
       { id: "usadv", name: "進階超音波模擬",
         summary: "使用超音波模擬器練習進階掃描切面與影像判讀。",
+        audience: null, date: null, location: null, prep: [], signup: null },
+      /* tab：Google 試算表裡這門課的分頁名稱（梯次會自動從分頁讀取） */
+      { id: "echo", name: "心臟超音波", tab: "心臟超音波",
+        summary: "練習心臟超音波的基本切面掃描與影像判讀。",
+        audience: null, date: null, location: null, prep: [], signup: null },
+      { id: "abdus", name: "腹部超音波", tab: "腹部超音波",
+        summary: "練習腹部超音波的基本掃描與腹腔器官影像判讀。",
         audience: null, date: null, location: null, prep: [], signup: null }
     ]
   },
