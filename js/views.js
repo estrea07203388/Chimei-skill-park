@@ -26,7 +26,8 @@ const selected = {};   // 每個園區目前選到第幾門課
    - levels：量表選項（由高到低），預設「非常同意／同意／普通」；scale 是各選項人數，順序同 levels
    - 「同意以上」＝前兩個選項的比例
    - compare：同一組題目的前後比較（例如課前／課後自評）
-   - counts：複選題等的人數統計 */
+   - counts：複選題等的人數統計
+   - values：分數制量表各選項的分數（例如 [10, 9, 8]），有填就改顯示平均分數 */
 const FB_LEVELS = ["非常同意", "同意", "普通"];
 function fbBar(scale, levels){
   const t = scale.reduce((a,b)=>a+b,0) || 1;
@@ -37,10 +38,15 @@ function fbNote(scale, levels, top){
   const t = scale.reduce((a,b)=>a+b,0) || 1;
   return `${top} <b>${Math.round((scale[0]+(scale[1]||0))/t*100)}%</b>（${levels.map((l,i)=>scale[i]?`${l} ${scale[i]}`:"").filter(Boolean).join("・")}）`;
 }
+/* 分數制量表（例如 10 分制）：顯示平均分數 */
+function fbMean(scale, levels, values){
+  const t = scale.reduce((a,b)=>a+b,0) || 1, m = scale.reduce((a,n,i)=>a+n*values[i],0) / t;
+  return `平均 <b>${m.toFixed(1)}</b> 分（${levels.map((l,i)=>scale[i]?`${l} ${scale[i]}`:"").filter(Boolean).join("・")}）`;
+}
 function fbLegend(levels){ return `<p class="fb-legend" aria-hidden="true">${levels.map((l,i)=>`<span class="l${i}"></span>${esc(l)}`).join("")}</p>`; }
 function feedbackHTML(f){
   const levels = f.levels || FB_LEVELS, top = f.topLabel || "同意以上";
-  const rows = f.items.map(it => `<li><p class="fb-q">${esc(it.q)}</p>${fbBar(it.scale, levels)}<p class="fb-n">${fbNote(it.scale, levels, top)}</p></li>`).join("");
+  const rows = f.items.map(it => `<li><p class="fb-q">${esc(it.q)}</p>${fbBar(it.scale, levels)}<p class="fb-n">${f.values ? fbMean(it.scale, levels, f.values) : fbNote(it.scale, levels, top)}</p></li>`).join("");
   const cmp = f.compare ? `<h3 class="sec">${esc(f.compare.title)}</h3>${f.compare.note?`<p class="fb-meta">${esc(f.compare.note)}</p>`:""}${fbLegend(f.compare.levels)}
     <ul class="fb-list">${f.compare.items.map(it => `<li><p class="fb-q">${esc(it.q)}</p>${[[f.compare.before, it.before],[f.compare.after, it.after]].filter(x=>x[1]).map(([lab, sc]) =>
       `<div class="fb-row"><span class="fb-tag">${esc(lab)}</span>${fbBar(sc, f.compare.levels)}</div><p class="fb-n">${esc(lab)}：${fbNote(sc, f.compare.levels, f.compare.topLabel || "能做到以上")}</p>`).join("")}</li>`).join("")}</ul>` : "";
