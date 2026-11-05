@@ -279,8 +279,12 @@ th{font-size:12px;color:var(--muted);letter-spacing:.08em;font-weight:700}
 }
 @media (prefers-reduced-motion:reduce){.flag,.ripple,.bob{animation:none}.zone .lift,.cta,.zone-card{transition:none}}
 
-/* ===== 返回 OSCE 學習島按鈕（頁首） ===== */
+/* ===== 返回 OSCE 學習島按鈕（固定在畫面左下角） ===== */
 .osce-back-link {
+  position: fixed; z-index: 1000;
+  left: max(16px, env(safe-area-inset-left));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  font-size: 16px;
   display: inline-flex; align-items: center; gap: .4em;
   padding: .6em 1.1em; border-radius: 999px;
   background: linear-gradient(90deg, #0ea5e9, #14b8a6);
@@ -290,3 +294,7 @@ th{font-size:12px;color:var(--muted);letter-spacing:.08em;font-weight:700}
 }
 .osce-back-link:hover { filter: brightness(1.08); }
 .osce-back-link:focus-visible { outline: 3px solid #f97316; outline-offset: 3px; }
+/* 頁面底部留空間，避免按鈕蓋住最下面的文字 */
+body { padding-bottom: 76px; }
+/* 地圖高度不超過「螢幕高度 − 頁首 − 按鈕」，矮螢幕時按鈕才不會蓋住地圖左下角的園區按鈕 */
+.map-wrap { height: max(480px, min(clamp(620px, 78vh, 880px), calc(100vh - 170px))); }
