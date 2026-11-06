@@ -18,6 +18,7 @@ Chimei-skill-park/
 │   ├── map3d.js               # 3D 導覽島（three.js）與地圖上的 HUD 介面
 │   ├── router.js              # 頁面切換（以網址 # 記錄目前頁面）
 │   ├── sheet.js               # 從 Google 試算表自動匯入各課程梯次
+│   ├── waves.js               # 海浪聲（Web Audio 即時合成，右下角開關）
 │   └── vendor/
 │       ├── three.min.js       # three.js r147（MIT）
 │       └── OrbitControls.js   # three.js 的地圖操作控制器
@@ -29,7 +30,7 @@ Chimei-skill-park/
 
 `index.html` 底部依序載入：
 
-1. `vendor/three.min.js` → 2. `vendor/OrbitControls.js` → 3. `data.js` → 4. `views.js` → 5. `map3d.js` → 6. `router.js` → 7. `sheet.js`
+1. `vendor/three.min.js` → 2. `vendor/OrbitControls.js` → 3. `data.js` → 4. `views.js` → 5. `map3d.js` → 6. `router.js` → 7. `sheet.js` → 8. `waves.js`
 
 這些都是一般 `<script>`（非 ES module），彼此透過全域變數共用（例如 `ZONES`、`go()`、`route()`），因此後面的檔案依賴前面的檔案；也因為不是 module，用 `file://` 直接開啟仍可正常運作。
 
@@ -44,6 +45,7 @@ Chimei-skill-park/
 | 新增／修改課程、日期、地點、報名連結 | `js/data.js` 的 `ZONES` |
 | 讓課程出現在 PGY 導覽票 | 該課程設 `pgy: true` |
 | 修改 ACLS 儀表板網址 | `js/data.js` 的 `LINKS.aclsDashboard` |
+| 調整海浪聲音量 | `js/waves.js` 的 `VOLUME`（0～1） |
 | 修改地圖上的長官小人 | `js/data.js` 的 `LEADERS` |
 | 新增／修改急救任務站的講師演講資料（PDF） | `js/data.js` 的 `lectures`（PDF 放在 acls-dashboard repo，`file` 填檔案路徑） |
 | 新增／更新課程的學員回饋（問卷統計） | `js/data.js` 課程裡的 `feedback`（目前有：呼吸道應變站 → 環狀軟骨切開術訓練、情境模擬館 → TRM、微創工坊 → 3D 列印 Y 型血管縫合、腹腔鏡模擬箱訓練）；量表選項可用 `levels` 自訂，課前／課後比較用 `compare`，複選題用 `counts`，10 分制等分數量表加 `values` 會顯示平均分數，`instructors` 可列出授課教師；只放統計，不要放姓名、人事號 |

@@ -352,3 +352,12 @@ body { padding-bottom: 76px; }
 .sessions small{color:var(--muted)}
 .sessions tr.past td{color:var(--muted)}
 .sessions .ended{display:inline-block;font-size:11px;padding:0 6px;border-radius:999px;background:var(--line);color:var(--muted)}
+
+/* ===== 海浪聲開關（固定在畫面右下角） ===== */
+.waves-btn{position:fixed;z-index:1000;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));
+  display:inline-flex;align-items:center;gap:.35em;min-height:44px;padding:.55em 1em;border-radius:999px;cursor:pointer;
+  font:700 15px/1 var(--f-body);color:var(--navy);background:rgba(255,250,242,.92);border:2px solid rgba(14,165,233,.55);
+  box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.waves-btn[aria-pressed="true"]{color:#fff;background:linear-gradient(90deg,#0ea5e9,#14b8a6);border-color:transparent}
+.waves-btn:hover{filter:brightness(1.05)}
+.waves-btn:focus-visible{outline:3px solid #f97316;outline-offset:3px}
